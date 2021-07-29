@@ -1,0 +1,1003 @@
+:root {
+	--title: #d43c37;
+	--white: #ffffff;
+	--grey: rgba(0, 0, 0, 0.6);
+	--red: red;
+	--transparent-white: rgba(255, 255, 255, 0.4);
+}
+
+* {
+	z-index: 1;
+}
+
+@font-face {
+	font-family: Title;
+	src: url(../font/starjedi/Starjhol.ttf);
+}
+
+@font-face {
+	font-family: Secondary Title;
+	src: url(../font/ANODETONOONE.TTF);
+}
+
+h1 {
+	font-family: Title;
+	font-size: 40px;
+	color: var(--title);
+}
+
+body::after {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	z-index: -1;
+	content: url(../img/game-background.png) url(../img/body-background.jpg)
+		url(../img/no-sound.png) url(../img/player/idle.png)
+		url(../img/player/attack.png) url(../img/player/fly.png)
+		url(../img/player/death.png) url(../img/enemy-1/fly.png)
+		url(../img/enemy-1/death.png) url(../img/enemy-1/attack.png)
+		url(../img/enemy-2/walk.png) url(../img/enemy-2/attack.png)
+		url(../img/enemy-2/death.png) url(../img/friend/walk.png)
+		url(../img/friend/death.png) url(../img/player/shot.png)
+		url(../img/enemy-1/bomb.png) url(../img/enemy-1/explosion.png)
+		url(../img/scoreboard.png) url(../img/hearth-full.png)
+		url(../img/hearth-empty.png);
+}
+
+body {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	background-image: url(../img/body-background.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.hide {
+	width: 0;
+	height: 0;
+	visibility: hidden;
+	z-index: -100;
+	display: none;
+}
+
+.transition {
+	transition: left ease 1s;
+}
+
+.game-container {
+	width: 950px;
+	height: auto;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.game-background {
+	position: relative;
+	overflow: hidden;
+	width: 950px;
+	height: 630px;
+	border-color: var(--white);
+	border-style: solid;
+	background-size: 100% 100%;
+	background-image: url(../img/game-background.png);
+	z-index: -999;
+}
+
+/* .background-window.game-background { */
+
+/* } */
+
+/* .background-window.game-over {
+	background-image: url(../img/game-over.png);
+} */
+
+.player {
+	width: 120px;
+	height: 60px;
+	position: absolute;
+	left: -35px;
+	top: 179px;
+	background-image: url(../img/player/idle.png);
+	background-size: calc(5 * 100%) calc(2 * 100%);
+}
+.player-idle-animation {
+	background-image: url(../img/player/idle.png);
+	animation: player-idle-animation-h 0.5s steps(5) infinite,
+		player-idle-animation-v 0.5s steps(2) infinite;
+	-webkit-animation: player-idle-animation-h 0.5s steps(5) infinite,
+		player-idle-animation-v 0.5s steps(2) infinite;
+	-moz-animation: player-idle-animation-h 0.5s steps(5) infinite,
+		player-idle-animation-v 0.5s steps(2) infinite;
+	-o-animation: player-idle-animation-h 0.5s steps(5) infinite,
+		player-idle-animation-v 0.5s steps(2) infinite;
+}
+
+@keyframes player-idle-animation-h {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-5 * 100%) 0;
+	}
+}
+
+@-webkit-keyframes player-idle-animation-h {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 0 calc(-5 * 100%);
+	}
+}
+
+@keyframes player-idle-animation-v {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 0 calc(-2 * 100%);
+	}
+}
+@-webkit-keyframes player-idle-animation-v {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: (-2 * 100%) 0;
+	}
+}
+
+.player-idle-animation.player-attack-animation,
+.player-fly-animation.player-attack-animation {
+	background-image: url(../img/player/attack.png);
+	background-size: calc(7 * 100%) 100%;
+	animation: player-attack-animation 0.2s steps(6) forwards;
+	-webkit-animation: player-attack-animation 0.2s steps(6) forwards;
+	-moz-animation: player-attack-animation 0.2s steps(6) forwards;
+	-o-animation: player-attack-animation 0.2s steps(6) forwards;
+}
+
+@keyframes player-attack-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-6 * 100%) 0;
+	}
+}
+@-webkit-keyframes player-attack-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-6 * 100%) 0;
+	}
+}
+
+.player-fly-animation {
+	background-image: url(../img/player/fly.png);
+	background-size: calc(5 * 100%) calc(3 * 100%);
+	animation: player-fly-animation-h 0.5s steps(5) infinite,
+		player-fly-animation-v 0.5s steps(3) infinite;
+	-webkit-animation: player-fly-animation-h 0.5s steps(5) infinite,
+		player-fly-animation-v 0.5s steps(3) infinite;
+	-moz-animation: player-fly-animation-h 0.5s steps(5) infinite,
+		player-fly-animation-v 0.5s steps(3) infinite;
+	-o-animation: player-fly-animation-h 0.5s steps(5) infinite,
+		player-fly-animation-v 0.5s steps(3) infinite;
+}
+
+@keyframes player-fly-animation-h {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-5 * 100%) 0;
+	}
+}
+
+@-webkit-keyframes player-fly-animation-h {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-5 * 100%) 0;
+	}
+}
+
+@-moz-keyframes player-fly-animation-h {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-5 * 100%) 0;
+	}
+}
+
+@-o-keyframes player-fly-animation-h {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-5 * 100%) 0;
+	}
+}
+
+@keyframes player-fly-animation-v {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 0 calc(-3 * 100%);
+	}
+}
+
+@-webkit-keyframes player-fly-animation-v {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 0 calc(-3 * 100%);
+	}
+}
+
+@-moz-keyframes player-fly-animation-v {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 0 calc(-3 * 100%);
+	}
+}
+
+@-o-keyframes player-fly-animation-v {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 0 calc(-3 * 100%);
+	}
+}
+
+.player-death-animation {
+	position: absolute;
+	background-image: url(../img/player/death.png);
+	background-size: calc(5 * 100%) 100%;
+	animation: player-death-animation 0.5s steps(4) forwards,
+		disappear 1.5s linear forwards;
+	-webkit-animation: player-death-animation 0.5s steps(4) forwards,
+		disappear 1.5s linear forwards;
+	-moz-animation: player-death-animation 0.5s steps(4) forwards,
+		disappear 1.5s linear forwards;
+	-o-animation: player-death-animation 0.5s steps(4) forwards,
+		disappear 1.5s linear forwards;
+}
+
+@keyframes player-death-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-4 * 100%) 0;
+	}
+}
+
+@-moz-keyframes player-death-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-4 * 100%) 0;
+	}
+}
+
+@-o-keyframes player-death-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-4 * 100%) 0;
+	}
+}
+
+@-webkit-keyframes player-death-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-4 * 100%) 0;
+	}
+}
+
+.enemy-1 {
+	width: 50px;
+	height: 80px;
+	position: absolute;
+	left: 895px;
+	top: 220px;
+	background-image: url(../img/enemy-1/fly.png);
+	background-size: calc(9 * 100%) 100%;
+}
+.enemy-1-fly-animation {
+	background-image: url(../img/enemy-1/fly.png);
+	animation: enemy-1-fly-animation 0.6s steps(9) infinite;
+	-webkit-animation: enemy-1-fly-animation 0.6s steps(9) infinite;
+	-moz-animation: enemy-1-fly-animation 0.6s steps(9) infinite;
+	-o-animation: enemy-1-fly-animation 0.6s steps(9) infinite;
+}
+
+@keyframes enemy-1-fly-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-9 * 100%);
+	}
+}
+
+@-webkit-keyframes enemy-1-fly-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-9 * 100%);
+	}
+}
+
+@-moz-keyframes enemy-1-fly-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-9 * 100%);
+	}
+}
+
+@-o-keyframes enemy-1-fly-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-9 * 100%);
+	}
+}
+
+.enemy-1-death-animation {
+	background-image: url(../img/enemy-1/death.png);
+	position: absolute;
+	background-size: 100% 100%;
+	opacity: 1;
+	animation: disappear 1s linear forwards;
+	-webkit-animation: disappear 1s linear forwards;
+	-o-animation: disappear 1s linear forwards;
+	-moz-animation: disappear 1s linear forwards;
+}
+
+@keyframes disappear {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.7;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@-moz-keyframes disappear {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.7;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes disappear {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.7;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@-o-keyframes disappear {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.7;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.enemy-1-attack-animation {
+	background-image: url(../img/enemy-1/attack.png);
+	animation: enemy-1-attack-animation 0.6s steps(9);
+	-webkit-animation: enemy-1-attack-animation 0.6s steps(9);
+	-moz-animation: enemy-1-attack-animation 0.6s steps(9);
+	-o-animation: enemy-1-attack-animation 0.6s steps(9);
+}
+
+@keyframes enemy-1-attack-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-9 * 100%);
+	}
+}
+
+@-moz-keyframes enemy-1-attack-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-9 * 100%);
+	}
+}
+
+@-webkit-keyframes enemy-1-attack-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-9 * 100%);
+	}
+}
+
+@-o-keyframes enemy-1-attack-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-9 * 100%);
+	}
+}
+
+.enemy-2 {
+	width: 120px;
+	height: 70px;
+	position: absolute;
+	left: 830px;
+	top: 480px;
+	background-image: url(../img/enemy-2/walk.png);
+	background-size: calc(13 * 100%) 100%;
+	/* transform: scaleX(-1); */
+}
+.enemy-2-walk-animation {
+	background-image: url(../img/enemy-2/walk.png);
+	animation: enemy-2-walk-animation 0.6s steps(13) infinite;
+	-webkit-animation: enemy-2-walk-animation 0.6s steps(13) infinite;
+	-moz-animation: enemy-2-walk-animation 0.6s steps(13) infinite;
+	-o-animation: enemy-2-walk-animation 0.6s steps(13) infinite;
+}
+
+@keyframes enemy-2-walk-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-13 * 100%);
+	}
+}
+
+@-webkit-keyframes enemy-2-walk-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-13 * 100%);
+	}
+}
+
+@-moz-keyframes enemy-2-walk-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-13 * 100%);
+	}
+}
+
+@-o-keyframes enemy-2-walk-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-13 * 100%);
+	}
+}
+
+.enemy-2-walk-animation.enemy-2-attack-animation {
+	background-size: calc(25 * 100%) 100%;
+	background-image: url(../img/enemy-2/attack.png);
+	animation: enemy-2-attack-animation 0.6s steps(25);
+	-webkit-animation: enemy-2-attack-animation 0.6s steps(25);
+	-moz-animation: enemy-2-attack-animation 0.6s steps(25);
+	-o-animation: enemy-2-attack-animation 0.6s steps(25);
+}
+
+@keyframes enemy-2-attack-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-25 * 100%);
+	}
+}
+
+@-webkit-keyframes enemy-2-attack-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-25 * 100%);
+	}
+}
+
+@-moz-keyframes enemy-2-attack-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-25 * 100%);
+	}
+}
+
+@-o-keyframes enemy-2-attack-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-25 * 100%);
+	}
+}
+
+.enemy-2-death-animation {
+	background-image: url(../img/enemy-2/death.png);
+	position: absolute;
+	background-size: calc(16 * 100%) 100%;
+	opacity: 1;
+	animation: enemy-2-death-animation 0.5s steps(15) forwards,
+		disappear 1s linear forwards;
+	-moz-animation: enemy-2-death-animation 0.5s steps(15) forwards,
+		disappear 1s linear forwards;
+	-webkit-animation: enemy-2-death-animation 0.5s steps(15) forwards,
+		disappear 1s linear forwards;
+	-o-animation: enemy-2-death-animation 0.5s steps(15) forwards,
+		disappear 1s linear forwards;
+}
+
+@keyframes enemy-2-death-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-15 * 100%) 0;
+	}
+}
+
+@-moz-keyframes enemy-2-death-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-15 * 100%) 0;
+	}
+}
+
+@-o-keyframes enemy-2-death-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-15 * 100%) 0;
+	}
+}
+
+@-webkit-keyframes enemy-2-death-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-15 * 100%) 0;
+	}
+}
+
+.friend {
+	width: 44px;
+	height: 51px;
+	position: absolute;
+	left: 0;
+	top: 500px;
+	background-image: url(../img/friend/walk.png);
+	background-size: calc(21 * 100%) 100%;
+}
+
+.friend-walk-animation {
+	background-image: url(../img/friend/walk.png);
+	animation: friend-walk-animation 0.5s steps(21) infinite;
+	-webkit-animation: friend-walk-animation 0.5s steps(21) infinite;
+	-moz-animation: friend-walk-animation 0.5s steps(21) infinite;
+	-o-animation: friend-walk-animation 0.5s steps(21) infinite;
+}
+
+@keyframes friend-walk-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-21 * 100%) 0;
+	}
+}
+
+@-webkit-keyframes friend-walk-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-21 * 100%) 0;
+	}
+}
+
+@-moz-keyframes friend-walk-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-21 * 100%) 0;
+	}
+}
+
+@-o-keyframes friend-walk-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-21 * 100%) 0;
+	}
+}
+
+.friend-death-animation {
+	position: absolute;
+	background-image: url(../img/friend/death.png);
+	background-size: calc(31 * 100%) 100%;
+	opacity: 1;
+	animation: friend-death-animation 0.5s steps(30) forwards,
+		disappear 2s linear forwards;
+	-webkit-animation: friend-death-animation 0.5s steps(30) forwards,
+		disappear 2s linear forwards;
+	-moz-animation: friend-death-animation 0.5s steps(30) forwards,
+		disappear 2s linear forwards;
+	-o-animation: friend-death-animation 0.5s steps(30) forwards,
+		disappear 2s linear forwards;
+}
+
+@keyframes friend-death-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-30 * 100%);
+	}
+}
+
+@-moz-keyframes friend-death-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-30 * 100%);
+	}
+}
+
+@-o-keyframes friend-death-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-30 * 100%);
+	}
+}
+
+@-webkit-keyframes friend-death-animation {
+	from {
+		background-position: 0;
+	}
+	to {
+		background-position: calc(-30 * 100%);
+		opacity: 0;
+	}
+}
+
+.start {
+	position: relative;
+	width: 500px;
+	height: 230px;
+	background-color: var(--transparent-white);
+	color: var(--grey);
+	font-weight: bolder;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+	text-align: center;
+	padding: 10px;
+	border: solid 2px var(--white);
+}
+
+.shot {
+	width: 35px;
+	height: 35px;
+	position: absolute;
+	background-image: url(../img/player/shot.png);
+	background-size: calc(5 * 100%) 100%;
+	animation: shot-animation 0.5s steps(5) infinite;
+	-webkit-animation: shot-animation 0.5s steps(5) infinite;
+	-moz-animation: shot-animation 0.5s steps(5) infinite;
+	-o-animation: shot-animation 0.5s steps(5) infinite;
+}
+
+@keyframes shot-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-5 * 100%) 0;
+	}
+}
+
+@-webkit-keyframes shot-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-5 * 100%) 0;
+	}
+}
+
+@-moz-keyframes shot-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-5 * 100%) 0;
+	}
+}
+
+@-o-keyframes shot-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-5 * 100%) 0;
+	}
+}
+
+.bomb {
+	width: 15px;
+	height: 25px;
+	position: absolute;
+	background-image: url(../img/enemy-1/bomb.png);
+	background-size: 100% 100%;
+	z-index: 0;
+}
+
+.explosion {
+	width: 250px;
+	height: 150px;
+	position: absolute;
+	background-image: url(../img/enemy-1/explosion.png);
+	background-size: calc(8 * 100%) 100%;
+	opacity: 1;
+	z-index: 2;
+	animation: explosion-animation 0.8s steps(8);
+	-webkit-animation: explosion-animation 0.8s steps(8);
+	-moz-animation: explosion-animation 0.8s steps(8);
+	-o-animation: explosion-animation 0.8s steps(8);
+}
+
+@keyframes explosion-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-8 * 100%) 0;
+	}
+}
+
+@-moz-keyframes explosion-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-8 * 100%) 0;
+	}
+}
+
+@-webkit-keyframes explosion-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-8 * 100%) 0;
+	}
+}
+
+@-o-keyframes explosion-animation {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: calc(-8 * 100%) 0;
+	}
+}
+
+.scoreboard {
+	font-family: Secondary Title;
+	width: 200px;
+	height: 100px;
+	position: absolute;
+	background-image: url(../img/scoreboard.png);
+	background-size: 100% 100%;
+	right: 5px;
+	top: 3px;
+	opacity: 0.6;
+	z-index: 0;
+}
+
+.score-title {
+	margin: 20px 0 12px 0;
+	font-size: 18px;
+	letter-spacing: 1px;
+	text-align: center;
+	color: var(--white);
+	text-transform: uppercase;
+}
+
+.score-tag {
+	font-size: 15px;
+	margin-left: 10px;
+	display: block;
+	width: 100%;
+	text-transform: uppercase;
+}
+
+.score-value {
+	font-size: 13px;
+	vertical-align: text-top;
+	color: var(--red);
+	padding-left: 5px;
+	letter-spacing: 1.5px;
+}
+
+.game-over .start {
+	height: 270px;
+}
+
+.final-scoreboard {
+	font-family: Secondary Title;
+	margin: 16px 0;
+}
+
+.final-scoreboard .score-title {
+	color: var(--title);
+	font-size: 20px;
+	margin: initial;
+}
+
+.final-scoreboard .score-tag {
+	margin-left: initial;
+	padding-top: 5px;
+}
+
+.final-scoreboard .score-value {
+	color: var(--title);
+}
+
+.life-panel {
+	margin: 10px;
+	max-width: 730px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 0;
+}
+
+.heart {
+	display: inline-flex;
+	margin: 1px;
+	width: 20px;
+	height: 15px;
+	background-image: url(../img/hearth-full.png);
+	background-size: 100% 100%;
+}
+
+.heart.empty {
+	background-image: url(../img/hearth-empty.png);
+	animation: pulse 1s;
+	-moz-animation: pulse 1s;
+	-o-animation: pulse 1s;
+	-webkit-animation: pulse 1s;
+}
+
+@keyframes pulse {
+	10% {
+		transform: scale(0.5);
+	}
+}
+
+@-moz-keyframes pulse {
+	10% {
+		transform: scale(0.5);
+	}
+}
+
+@-o-keyframes pulse {
+	10% {
+		transform: scale(0.5);
+	}
+}
+
+@-webkit-keyframes pulse {
+	10% {
+		transform: scale(0.5);
+	}
+}
+
+.no-sound .no-sound-container {
+	display: block;
+}
+
+.no-sound .start {
+	height: 250px;
+}
+
+.no-sound-container {
+	display: none;
+}
+
+.no-sound-img {
+	width: 40px;
+	height: 40px;
+	background-image: url(../img/no-sound.png);
+	background-size: 100% 100%;
+	animation: pulse 0.8s infinite;
+	-moz-animation: pulse 0.8s infinite;
+	-o-animation: pulse 0.8s infinite;
+	-webkit-animation: pulse 0.8s infinite;
+}
+
+.no-sound-text {
+	position: absolute;
+	top: 7px;
+	left: 60px;
+	color: black;
+}
+
+.start-button {
+	border: none;
+	color: var(--white);
+	font-weight: bolder;
+	padding: 10px;
+	cursor: pointer;
+	transition: transform ease 500ms;
+	background-color: var(--grey);
+}
+
+.start-button:hover {
+	transform: scale(1.1);
+}
