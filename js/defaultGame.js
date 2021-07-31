@@ -4,7 +4,7 @@ export const defaultGame = {
 	score: 0,
 	rescues: 0,
 	losses: 0,
-	maxLifes: 3,
+	maxLives: 3,
 	sounds: {
 		menu: {
 			path: "menu.mp3",

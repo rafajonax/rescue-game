@@ -11,8 +11,8 @@ export class RescueGame {
 		this.score = this.game.score;
 		this.rescues = this.game.rescues;
 		this.losses = this.game.losses;
-		this.maxLifes = this.game.maxLifes;
-		this.lifes = this.game.maxLifes;
+		this.maxLives = this.game.maxLives;
+		this.lives = this.game.maxLives;
 		this.sounds = this.game.sounds;
 		this.init();
 	}
@@ -125,17 +125,17 @@ export class RescueGame {
 	createLifeBar() {
 		this.lifeBar = document.createElement("div");
 		this.lifeBar.className = "life-panel";
-		this.lifeBar.innerHTML = new Array(this.maxLifes)
+		this.lifeBar.innerHTML = new Array(this.maxLives)
 			.fill(`<div class="heart full"></div>`)
 			.join("");
 		this.gameBackground.appendChild(this.lifeBar);
 	}
 	decreaseLife() {
 		this.lifeBar
-			.querySelector(`.heart:nth-child(${this.lifes})`)
+			.querySelector(`.heart:nth-child(${this.lives})`)
 			.classList.add("empty");
-		this.lifes--;
-		if (this.lifes == 0) this.gameOver();
+		this.lives--;
+		if (this.lives == 0) this.gameOver();
 	}
 	createScoreboard() {
 		this.scoreboard = document.createElement("div");
@@ -334,7 +334,7 @@ export class RescueGame {
 		this.score = this.game.score;
 		this.losses = this.game.losses;
 		this.rescues = this.game.rescues;
-		this.lifes = this.game.maxLifes;
+		this.lives = this.game.maxLives;
 		this.startGame();
 	}
 	gameOver() {
